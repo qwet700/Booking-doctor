@@ -1,0 +1,9 @@
+Project bookingdoctor {
+  database_type: 'MongoDB'
+  Note: ''
+    # Bookingdocter Database
+}
+
+Table patients {
+  id 
+}

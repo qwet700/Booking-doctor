@@ -1,0 +1,7 @@
+Project bookingdoctor {
+  database_type: 'MongoDB'
+  Note: '''
+    # Bookingdocter Database
+    **markdown content here**
+  '''
+}
