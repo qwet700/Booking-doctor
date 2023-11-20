@@ -2,15 +2,19 @@ package utils
 
 import (
 	"encoding/json"
-	"io"
+	"log"
 	"net/http"
 )
 
-// decode json to struct
-func ParseBody(r *http.Request, x interface{}) {
-	if body, err := io.ReadAll(r.Body); err == nil {
-		if err := json.Unmarshal([]byte(body), x); err != nil {
-			return
-		}
+func jsonResponse(w http.ResponseWriter, status int, data interface{}) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		log.Println(err)
+		return
 	}
+
+	w.Write(jsonData)
 }

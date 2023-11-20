@@ -17,7 +17,4 @@ require (
 	golang.org/x/text v0.7.0 // indirect
 )
 
-require (
-	github.com/jinzhu/inflection v1.0.0 // indirect
-	go.mongodb.org/mongo-driver v1.13.0
-)
+require go.mongodb.org/mongo-driver v1.13.0
