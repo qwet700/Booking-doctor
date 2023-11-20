@@ -5,7 +5,7 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
-	"github.com/qwet700/Booking-doctor/controller"
+	"github.com/qwet700/Booking-doctor/pkg/controller"
 )
 
 var Handle = func(router *chi.Router) {

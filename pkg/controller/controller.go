@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/go-chi/chi"
-	"github.com/qwet700/Booking-doctor/models"
+	"github.com/qwet700/Booking-doctor/pkg/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -50,7 +50,7 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(users)
 }
 
-func GetUser(w http.ResponseWriter, r *http.Request) {
+func GetUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	idParam := chi.URLParam(r, "id")              // lấy giá trị id từ URL, với go-chi
 	id, err := primitive.ObjectIDFromHex(idParam) // chuyển đổi id từ string sang ObjectID
