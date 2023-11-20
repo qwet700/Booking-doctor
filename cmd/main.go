@@ -1,22 +1,45 @@
 package main
 
 import (
+	"context"
+	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func main() {
-	r := chi.NewRouter().StrictSlash(true)
-	// routes.ImpItem(r)
-	// http.Handle("/", r)
-	// fmt.Printf("Running on port 33060")
-	// log.Fatal(http.ListenAndServe("localhost:33060", r))
+const uri = "mongodb://root:root1@localhost:27017/maxPoolSize=20&w=majority?authSource=admin"
 
-	r.Use(middleware.Logger)
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("welcome"))
-	})
-	http.ListenAndServe(":3000", r)
+func main() {
+	var client *mongo.Client
+	var err error
+
+	// Set client options
+	clientOptions := options.Client().ApplyURI(uri)
+
+	// Connect to MongoDB
+	client, err = mongo.Connect(context.TODO(), clientOptions)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Check the connection
+	err = client.Ping(context.TODO(), nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Connected to MongoDB!")
+
+	// Disconnect the connection
+	err = client.Disconnect(context.TODO())
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer fmt.Println("Disconnected")
+
+	r := chi.NewRouter()
+	log.Fatal(http.ListenAndServe(":8000", r))
 }
