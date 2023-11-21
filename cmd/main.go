@@ -5,8 +5,11 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
+	"github.com/qwet700/Booking-doctor/pkg/controller"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -16,6 +19,7 @@ const uri = "mongodb://root:root1@localhost:27017/maxPoolSize=20&w=majority?auth
 func main() {
 	var client *mongo.Client
 	var err error
+	r := chi.NewRouter()
 
 	// Set client options
 	clientOptions := options.Client().ApplyURI(uri)
@@ -33,13 +37,20 @@ func main() {
 	}
 	fmt.Println("Connected to MongoDB!")
 
-	// Disconnect the connection
+	// Disconnected
 	err = client.Disconnect(context.TODO())
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer fmt.Println("Disconnected")
 
-	r := chi.NewRouter()
-	log.Fatal(http.ListenAndServe(":8000", r))
+	// Routes
+	r.Use(middleware.Timeout(60 * time.Second))
+	// r.Use(middleware.Logger)
+
+	r.Post("/user", controller.CreateUser)
+	r.Get("/users", controller.GetAllUsers)
+	// r.Get("/user/{id}", controller.GetUsers)
+	http.ListenAndServe(":8000", r)
+
 }
