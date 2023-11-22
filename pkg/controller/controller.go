@@ -26,6 +26,12 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if client == nil {
+		log.Println("MongoDB client is nil")
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
 	collection := client.Database("user").Collection("users")
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
