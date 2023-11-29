@@ -36,7 +36,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	id := result.InsertedID
-	user.ID = id.(primitive.ObjectID)
+	user.UserID = id.(primitive.ObjectID)
 	json.NewEncoder(w).Encode(&user)
 }
 
@@ -66,28 +66,27 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(users)
 }
 
-// func GetUserID(w http.ResponseWriter, r *http.Request) {
-// 	w.Header().Set("Content-Type", "application/json")
-// 	idParam := chi.URLParam(r, "id")              // lấy giá trị id từ URL, với go-chi
-// 	id, err := primitive.ObjectIDFromHex(idParam) // chuyển đổi id từ string sang ObjectID
-// 	if err != nil {
-// 		w.WriteHeader(http.StatusBadRequest)
-// 		json.NewEncoder(w).Encode("Invalid ID")
-// 		return
-// 	}
+func GetUserID(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	idParam := chi.URLParam(r, "id")              // lấy giá trị id từ URL, với go-chi
+	id, err := primitive.ObjectIDFromHex(idParam) // chuyển đổi id từ string sang ObjectID
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode("Invalid ID")
+		return
+	}
 
-// 	var user models.User
-// 	collection := client.Database("user").Collection("users")
+	var user models.User
+	collection := client.Database("user").Collection("users")
 
-// 	err = collection.FindOne(context.TODO(), bson.M{"_id": id}).Decode(&user)
-// 	if err != nil {
-// 		w.WriteHeader(http.StatusNotFound)
-// 		json.NewEncoder(w).Encode("User not found")
-// 		return
-// 	}
-
-// 	json.NewEncoder(w).Encode(user)
-// }
+	err = collection.FindOne(context.TODO(), bson.M{"_id": id}).Decode(&user)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode("User not found")
+		return
+	}
+	json.NewEncoder(w).Encode(user)
+}
 
 // func GetUserName(w http.ResponseWriter, r *http.Request) {
 // 	w.Header().Set("Content-Type", "application/json")

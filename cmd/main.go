@@ -18,7 +18,7 @@ func main() {
 	r.Route("/user", func(r chi.Router) {
 		r.Post("/", controller.CreateUser)
 		r.Get("/", controller.GetAllUsers)
-		// r.Get("/{name}", controller.GetUserName)
+		r.Get("/{id}", controller.GetUserID)
 		r.Put("/{id}", controller.UpdateUser)
 		// r.Delete("/{id}", controller.DeleteUser)
 	})

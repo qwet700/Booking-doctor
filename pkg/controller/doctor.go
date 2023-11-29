@@ -32,8 +32,30 @@ func CreateDoc(w http.ResponseWriter, r *http.Request) {
 	}
 
 	id := result.InsertedID
-	doc.ID = id.(primitive.ObjectID)
+	doc.DocID = id.(primitive.ObjectID)
 	json.NewEncoder(w).Encode(&doc)
+}
+
+func GetDoctorID(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	idParam := chi.URLParam(r, "docid")
+	id, err := primitive.ObjectIDFromHex(idParam)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode("Invalid ID")
+		return
+	}
+
+	var doc models.Doctor
+	collection := client.Database("doc").Collection("docs")
+
+	err = collection.FindOne(context.TODO(), bson.M{"_docid": id}).Decode(&doc)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode("Doctor not found")
+		return
+	}
+	json.NewEncoder(w).Encode(doc)
 }
 
 func UpdateDoc(w http.ResponseWriter, r *http.Request) {
