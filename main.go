@@ -25,7 +25,7 @@ func main() {
 
 	r.Route("/doctor", func(r chi.Router) {
 		r.Post("/", controller.CreateDoc)
-		// r.Get("/{id}", controller.GetPatient)
+		// r.Get("/{docid}", controller.GetPatient)
 		r.Put("/{docid}", controller.UpdateDoc)
 		r.Delete("/{docid}", controller.DeleteDoc)
 	})

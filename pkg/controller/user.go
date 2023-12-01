@@ -128,7 +128,7 @@ func GetUserID(w http.ResponseWriter, r *http.Request) {
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	userID := chi.URLParam(r, "id")
+	// userID := chi.URLParam(r, "id")
 
 	var user models.User
 	err := json.NewDecoder(r.Body).Decode(&user)
@@ -139,7 +139,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	collection := client.Database("user").Collection("users")
 	opts := options.Update().SetUpsert(true)
-	filter := bson.D{primitive.E{Key: "_id", Value: userID}}
+	filter := bson.D{{Key: "_id", Value: user.UserID}}
 	update := bson.M{"$set": user}
 	_, err = collection.UpdateOne(context.TODO(), filter, update, opts) // result, err :=
 	if err != nil {

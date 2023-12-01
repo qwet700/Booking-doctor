@@ -49,7 +49,7 @@ func GetDoctorID(w http.ResponseWriter, r *http.Request) {
 	var doc models.Doctor
 	collection := client.Database("doc").Collection("docs")
 
-	err = collection.FindOne(context.TODO(), bson.M{"_docid": id}).Decode(&doc)
+	err = collection.FindOne(context.TODO(), bson.M{"_id": id}).Decode(&doc)
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode("Doctor not found")
@@ -71,8 +71,8 @@ func UpdateDoc(w http.ResponseWriter, r *http.Request) {
 
 	collection := client.Database("doc").Collection("docs")
 	opts := options.Update().SetUpsert(true)
-	filter := bson.D{primitive.E{Key: "_docid", Value: docID}}
-	update := bson.M{"$set": doc}
+	filter := bson.D{{Key: "_docid", Value: docID}}
+	update := bson.M{"$set": doc} // auto convert ObjectID to string
 	_, err = collection.UpdateOne(context.TODO(), filter, update, opts)
 	if err != nil {
 		log.Fatal(err)
@@ -93,7 +93,7 @@ func DeleteDoc(w http.ResponseWriter, r *http.Request) {
 	var doc models.Doctor
 	collection := client.Database("doc").Collection("docs")
 
-	err = collection.FindOneAndDelete(context.TODO(), bson.M{"_id": id}).Decode(&doc)
+	err = collection.FindOneAndDelete(context.TODO(), bson.M{"_docid": id}).Decode(&doc)
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode("doc not found or no longer exist")
