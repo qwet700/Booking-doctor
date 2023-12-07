@@ -11,7 +11,7 @@ type fysionTheme struct {
 	fyne.Theme
 }
 
-func NewFysionTheme() fyne.Theme {
+func newFysionTheme() fyne.Theme {
 	return &fysionTheme{Theme: theme.DefaultTheme()}
 }
 

@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -22,6 +21,5 @@ func Dbconnect() *mongo.Client {
 		log.Fatal("Connection Failed to Database")
 		log.Fatal(err)
 	}
-	fmt.Println("Connected to Database")
 	return client
 }

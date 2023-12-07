@@ -1,6 +1,12 @@
 package models
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"context"
+	"log"
+
+	"github.com/qwet700/Booking-doctor/pkg/db"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 type User struct {
 	UserID primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
@@ -17,8 +23,20 @@ type Doctor struct {
 	Phone string             `json:"phone" bson:"phone"`
 }
 
-// type Calender struct {
-// 	OrderID     User               `json:"_orderid" bson:"_orderid"`
-// 	DoctorID    Doctor             `json:"_doctorid" bson:"_doctorid"`
-// 	BookingDate primitive.DateTime `json:"bookingdate" bson:"bookingdate"`
-// }
+//	type Calender struct {
+//		OrderID     User               `json:"_orderid" bson:"_orderid"`
+//		DoctorID    Doctor             `json:"_doctorid" bson:"_doctorid"`
+//		BookingDate primitive.DateTime `json:"bookingdate" bson:"bookingdate"`
+//	}
+var client = db.Dbconnect()
+
+func NewUser(Name, Phone, Age string) {
+	var user User
+	collection := client.Database("user").Collection("users")
+
+	_, err := collection.InsertOne(context.TODO(), user)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+}

@@ -7,6 +7,7 @@ require github.com/go-chi/chi v1.5.5
 require go.mongodb.org/mongo-driver v1.13.0
 
 require (
+	fyne.io/fyne v1.4.3
 	fyne.io/fyne/v2 v2.4.2 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
