@@ -2,21 +2,21 @@ package ui
 
 import (
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/theme"
+	"fyne.io/fyne/v2/widget"
 )
 
-type fysionTheme struct {
-	fyne.Theme
-}
+func GUI() fyne.CanvasObject {
+	toolbar := widget.NewToolbar(
+		widget.NewToolbarAction(theme.HomeIcon(), func() {}),
+	)
 
-func newFysionTheme() fyne.Theme {
-	return &fysionTheme{Theme: theme.DefaultTheme()}
-}
+	left := widget.NewLabel("left")
+	right := widget.NewLabel("right")
 
-// custome text size
-func (t *fysionTheme) Size(name fyne.ThemeSizeName) float32 {
-	if name == theme.SizeNameText {
-		return 12
-	}
-	return t.Theme.Size(name)
+	content := widget.NewLabel("content")
+	content.Alignment = fyne.TextAlignCenter
+
+	return container.NewBorder(toolbar, nil, left, right, content)
 }
