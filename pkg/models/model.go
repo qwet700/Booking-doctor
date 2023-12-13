@@ -19,7 +19,7 @@ type Doctor struct {
 	DocID primitive.ObjectID `json:"_docid,omitempty" bson:"_docid,omitempty"`
 	Name  string             `json:"name" bson:"name"`
 	Prof  string             `json:"prof" bson:"prof"`
-	Age   int                `json:"age" bson:"age"`
+	Mail  string             `json:"mail" bson:"mail"`
 	Phone string             `json:"phone" bson:"phone"`
 }
 

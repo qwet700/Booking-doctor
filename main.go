@@ -6,7 +6,6 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
-	ui "github.com/qwet700/Booking-doctor/UI"
 	"github.com/qwet700/Booking-doctor/pkg/controller"
 )
 
@@ -30,7 +29,7 @@ func main() {
 		r.Put("/{docid}", controller.UpdateDoc)
 		r.Delete("/{docid}", controller.DeleteDoc)
 	})
-	ui.RunUI()
+	// ui.RunUI()
 
 	http.ListenAndServe(":8000", r)
 }
